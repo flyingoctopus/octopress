@@ -1,5 +1,5 @@
-//var width = 560, height = 220; 
-var width = 1000, height = 220; 
+var width = 516, height = 180; 
+//var width = 5, height = 220; 
 
 var camera, scene, renderer;
 
@@ -43,9 +43,11 @@ window.addEventListener("load", init3D, false);
 function init3D() {
 
 
-    camera = new THREE.Camera( 27, width / height, 1, 2000 );
+    camera = new THREE.PerspectiveCamera( 27, width / height, 1, 2000 );
     camera.position.z = 280;
     camera.position.y = 20;
+
+    console.log
     
     scene = new THREE.Scene();
     
@@ -135,7 +137,7 @@ function makeGradPlane() {
     
     
     var geom = new THREE.PlaneGeometry(350,200,1,1); 
-    var gradPlane = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/grad6.jpg' ),blending :THREE.AdditiveBlending, depthTest:false,transparent:true})); 
+    var gradPlane = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/grad.jpeg' ),blending :THREE.AdditiveBlending, depthTest:false,transparent:true})); 
     
     gradPlane.scale.x=1.5;
     scene.add( gradPlane );
@@ -146,7 +148,7 @@ function makeGradPlane() {
 function setupRenderer() { 
     
     if(Detector.webgl) {
-        renderer = new THREE.WebGLRenderer({antialias:true, clearColor:0x040006});
+        renderer = new THREE.WebGLRenderer({antialias:true, clearColor:0x40006});
         setInterval(loop, 1000/30);
         
     } else if(Detector.canvas) { 
@@ -217,11 +219,6 @@ function loop() {
     velY += diffY;
     camera.position.x += velX; 
     camera.position.y += velY;
-    
-    updateSnow(); 
-    
-    
-
     
     if(logoObject3D.targetPosition) {
         var diff = logoObject3D.targetPosition.clone(); 
