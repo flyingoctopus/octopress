@@ -35,7 +35,7 @@ var counterX = 0,
 //numImg.src = '/numbers.png';
 var logoImage = new Image();
 // preload logo
-logoImage.src = '/flyingoctopus.png';
+logoImage.src = '/images/flyingoctopus.png';
     
 window.addEventListener("load", init3D, false); 
 
@@ -43,7 +43,7 @@ window.addEventListener("load", init3D, false);
 function init3D() {
 
 
-    camera = new THREE.PerspectiveCamera( 27, width / height, 1, 2000 );
+    camera = new THREE.Camera( 27, width / height, 1, 2000 );
     camera.position.z = 280;
     camera.position.y = 20;
     
@@ -109,7 +109,7 @@ function makeLogoPlanes() {
     for(var i =0; i<(Detector.webgl?20:3); i++)
     {
     
-        material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/flyingoctopus.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2}); 
+        material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/flyingoctopus.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2}); 
         //material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( creativeJSImageFolder+'12daysTypeGlow.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2});   
         
     
@@ -135,7 +135,7 @@ function makeGradPlane() {
     
     
     var geom = new THREE.PlaneGeometry(350,200,1,1); 
-    var gradPlane = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( creativeJSImageFolder+'grad6.jpg' ),blending :THREE.AdditiveBlending, depthTest:false,transparent:true})); 
+    var gradPlane = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/grad6.jpg' ),blending :THREE.AdditiveBlending, depthTest:false,transparent:true})); 
     
     gradPlane.scale.x=1.5;
     scene.add( gradPlane );
@@ -317,147 +317,5 @@ var canvas = renderer.domElement;
     mouseX-=(width/2); 
     mouseY-=(height/2); 
     
-
-}
-
-
-function makeClock() { 
-    
-    if(cdCubes) return; 
-    
-    logoObject3D.targetPosition = logoObject3D.position.clone(); 
-    logoObject3D.targetPosition.y = 20; 
-    cdCubes = new CountDownCubes(); 
-    scene.add(cdCubes);
-
-    cdCubes.startTicking(); 
-    cdCubes.position.y = -40;
-    
-
-}
-
-
-
-function makeSnow() { 
-    
-    if(Detector.webgl) { 
-    
-        var geometry = new THREE.Geometry();
-    
-        for ( i = 0; i < 600; i++ ) {
-
-            vector = new THREE.Vector3( Math.random() * 600 - 300, Math.random() * 1200 + 80, Math.random() * 500 - 300 );
-        
-            var vertex = new THREE.Vertex( vector ); 
-        
-            geometry.vertices.push( vertex );
-        
-            snowFlakes.push({vertex:vertex, 
-                velX : Math.random()-0.5, 
-                velY : Math.random()*-0.8 - 0.5,
-                landed : false});
-
-        }
-    
-        
-        var material = new THREE.ParticleBasicMaterial( { size: 15, blending: THREE.AdditiveBlending, depthTest: false, transparent : true, map:THREE.ImageUtils.loadTexture( creativeJSImageFolder+'snowparticle.png')  } );
- 
-        snowParticles = new THREE.ParticleSystem( geometry, material );
-        scene.add(snowParticles);
-        snowParticles.sortParticles = false;
-    } else { 
-        
-        var program = function ( c ) {
-
-            c.save();
-            
-            c.rotate(Math.PI/4); 
-            c.beginPath(); 
-            c.moveTo(0,-1); 
-            c.lineTo(0.7,-0.7); 
-            c.lineTo(1,0); 
-            c.lineTo(0.7,0.7);
-            c.lineTo(0,1); 
-            c.lineTo(-0.7,0.7); 
-            c.lineTo(-1,0); 
-            c.lineTo(-0.7,-0.7); 
-            c.closePath();
-            c.fill();  
-            
-    
-            c.restore();
-            
-
-        };
-        
-        for ( var i = 0; i < 200; i++ ) {
-
-            particle = new THREE.Particle( new THREE.ParticleCanvasMaterial( { color:0xffccee, program: program, depthTest: false, transparent : true, blending: THREE.AdditiveBlending } ) );
-            particle.position.x = Math.random() * 600 - 300;
-            particle.position.y = Math.random() * 400 + 80;
-            particle.position.z = Math.random() * 400 - 200;
-            particle.scale.x = particle.scale.y = 1;
-            scene.add( particle );
-            
-                snowFlakes.push({vertex:particle, 
-                    velX : Math.random()-0.5, 
-                    velY : Math.random()*-0.8 - 0.5,
-                    landed : false});
-            
-        }
-
-        
-        
-    }
-    
-}
-
-function updateSnow() { 
-    
-    var wind = mouseX * -0.002; 
-    var top = 35 + logoObject3D.position.y; 
-    
-    for(var i=0; i<snowFlakes.length;i++) { 
-        var flakeData = snowFlakes[i];
-        var vertex = flakeData.vertex; 
-        if(!flakeData.landed) { 
-            with(vertex.position) { 
-                
-            
-                if(Detector.webgl && (y>top) && (y+flakeData.velY<top) &&(x>-150) && (x<150) && (z>-34) && (z<34)) { 
-                    flakeData.landed = true; 
-                    y = top;
-                    
-                } else {
-                
-                    y+=flakeData.velY; 
-                    x += flakeData.velX + wind;
-                    if(x>300) x-=600; 
-                    else if(x<-300) x+=600; 
-                    if(y<-200) {
-                        y = 200;
-                        x = Math.random()*600-300; 
-                        z = Math.random()*500-300;
-                    }
-                }  
-            }
-        } else { 
-            vertex.position.y = top;
-        } 
-        
-        
-        
-    }
-    if(snowParticles) snowParticles.geometry.__dirtyVertices = true;
-    
-}
-
-
-function countdownFinished() { 
-    setTimeout(function(){logoObject3D.targetPosition.y = -6;},1000);  
-    animating = true; 
-    
-    //logoMaterials[0].map = texture12Days;
-    //logoMaterial.map = texture12Days;
 
 }
