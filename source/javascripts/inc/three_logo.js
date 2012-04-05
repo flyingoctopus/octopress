@@ -1,4 +1,4 @@
-var width = 516, height = 180; 
+var width = 516, height = 153; 
 //var width = 5, height = 220; 
 
 var camera, scene, renderer;
@@ -22,8 +22,6 @@ var counterX = 0,
     dragExtentY = 100, 
     renderer, 
     logoObject3D, 
-    snowFlakes = [],
-    snowParticles,  
     
     cdCubes,
     numImg = new Image(), 
@@ -35,7 +33,7 @@ var counterX = 0,
 //numImg.src = '/numbers.png';
 var logoImage = new Image();
 // preload logo
-logoImage.src = '/images/flyingoctopus.png';
+logoImage.src = '/images/flyingoctopus_text.png';
     
 window.addEventListener("load", init3D, false); 
 
@@ -66,7 +64,7 @@ function init3D() {
     makeLogoPlanes(); 
     
     // make a plane in the background - it's kinda dark purple to black radial gradient
-    makeGradPlane(); 
+    //makeGradPlane(); 
     
     scene.add(logoObject3D); 
     logoObject3D.position.y = -6; 
@@ -111,7 +109,7 @@ function makeLogoPlanes() {
     for(var i =0; i<(Detector.webgl?20:3); i++)
     {
     
-        material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/flyingoctopus.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2}); 
+        material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/flyingoctopus_text.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2}); 
         //material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( creativeJSImageFolder+'12daysTypeGlow.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2});   
         
     
@@ -136,8 +134,8 @@ function makeLogoPlanes() {
 function makeGradPlane() { 
     
     
-    var geom = new THREE.PlaneGeometry(350,200,1,1); 
-    var gradPlane = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/grad.jpeg' ),blending :THREE.AdditiveBlending, depthTest:false,transparent:true})); 
+    var geom = new THREE.PlaneGeometry(314,200,1,1); 
+    var gradPlane = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/grad.png' ),blending :THREE.AdditiveBlending, depthTest:false,transparent:true})); 
     
     gradPlane.scale.x=1.5;
     scene.add( gradPlane );
@@ -148,11 +146,11 @@ function makeGradPlane() {
 function setupRenderer() { 
     
     if(Detector.webgl) {
-        renderer = new THREE.WebGLRenderer({antialias:true, clearColor:0x40006});
+        renderer = new THREE.WebGLRenderer({antialias:true, clearColor: 0x000000, clearAlpha: 0, format: THREE.RGBAFormat});
         setInterval(loop, 1000/30);
         
     } else if(Detector.canvas) { 
-        renderer = new THREE.CanvasRenderer({clearColor:0x040006});
+        renderer = new THREE.CanvasRenderer({clearColor: 0x000000, clearAlpha: 0, format: THREE.RGBAFormat});
         setInterval(loop, 1000/20);
         
     } else {
@@ -169,7 +167,7 @@ function setupRenderer() {
 
     var canvas = renderer.domElement;
 
-    canvas.style.background = "#020003";
+    //canvas.style.background = "#020003";
     
     var canvas = renderer.domElement;
     window.addEventListener("mousemove", onMouseMove, false); 
