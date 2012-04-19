@@ -1,4 +1,4 @@
-var width = 516, height = 153; 
+var width = 516, height = 250; 
 //var width = 5, height = 220; 
 
 var camera, scene, renderer;
@@ -33,7 +33,7 @@ var counterX = 0,
 //numImg.src = '/numbers.png';
 var logoImage = new Image();
 // preload logo
-logoImage.src = '/images/flyingoctopus_text.png';
+logoImage.src = '/flyingoctopus.png';
     
 window.addEventListener("load", init3D, false); 
 
@@ -42,6 +42,7 @@ function init3D() {
 
 
     camera = new THREE.PerspectiveCamera( 27, width / height, 1, 2000 );
+    //camera = new THREE.PerspectiveCamera( 27, 2.58, 1, 2000 );
     camera.position.z = 280;
     camera.position.y = 20;
 
@@ -56,9 +57,9 @@ function init3D() {
     // make the nice cubey wireframe models - we make a few on top of 
     // each other to make them look all glowy :) 
 
-    addCube(0x524a55,0.4,1); 
-    addCube(0x524a55,4,0.2); 
-    addCube(0x524a55,8,0.2); 
+    //addCube(0xE05CDE,0.4,1); 
+    //addCube(0xE05CDE,4,0.2); 
+    //addCube(0xE05CDE,8,0.2); 
     
     // make the planes with the logo and the faded logos in the background
     makeLogoPlanes(); 
@@ -103,18 +104,20 @@ function addCube(lineColour, lineWidth, lineOpacity) {
 
 function makeLogoPlanes() { 
     
-    var geom = new THREE.PlaneGeometry(200,200 * (115/460),2,1); 
+    var geom = new THREE.PlaneGeometry(300,300,2,1); 
+    //var geom = new THREE.PlaneGeometry(200,200 * (115/460),2,1); 
     //var geom = new THREE.PlaneGeometry(280,280 * (107/529),2,1); 
     
     for(var i =0; i<(Detector.webgl?20:3); i++)
     {
     
-        material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/flyingoctopus_text.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2}); 
+        material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/flyingoctopus.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2}); 
         //material = new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( creativeJSImageFolder+'12daysTypeGlow.png' ),  opacity:(i==0)?0.9:(i>=3)?0.012:0.1, blending :THREE.AdditiveBlending, depthTest:false,transparent:true});//(1-(i/4))*0.2});   
         
     
     
-        if(i==1)    geom = new THREE.PlaneGeometry(200,200 * (115/460),1,1); 
+        if(i==1)    geom = new THREE.PlaneGeometry(400,400,1,1); 
+        //if(i==1)    geom = new THREE.PlaneGeometry(200,200 * (115/460),1,1); 
 
 //      if(i==1)    geom = new THREE.PlaneGeometry(280,280 * (107/529),1,1); 
 
@@ -134,7 +137,7 @@ function makeLogoPlanes() {
 function makeGradPlane() { 
     
     
-    var geom = new THREE.PlaneGeometry(314,200,1,1); 
+    var geom = new THREE.PlaneGeometry(300,300,1,1); 
     var gradPlane = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( {map: THREE.ImageUtils.loadTexture( '/images/grad.png' ),blending :THREE.AdditiveBlending, depthTest:false,transparent:true})); 
     
     gradPlane.scale.x=1.5;
@@ -176,8 +179,6 @@ function setupRenderer() {
 
     
 }
-
-//
 
 function loop() {
 

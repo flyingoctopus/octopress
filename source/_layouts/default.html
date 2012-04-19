@@ -11,6 +11,9 @@ sidebar: false
       {{ content | expand_urls: root_url }}
     </div>
   </div>
+  <canvas id="myCanvas" data-processing-sources="flocking/ShiffmanFlocking.pde flocking/Boid.pde flocking/Flock.pde" width="200" height="200">
+    your browser doesnt support canvas
+</canvas>
   <footer role="contentinfo">{% include footer.html %}</footer>
   {% include after_footer.html %}
 </body>
